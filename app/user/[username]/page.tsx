@@ -20,7 +20,7 @@ export default async function Page({ params }: Props) {
   const user = await getUserData(username);
 
   if (!user) {
-    return <div className="text-center text-red-500 mt-10">User not found</div>;
+    return <div className="text-center text-red-500 mt-10">User Not Found 😭</div>;
   }
 
   return (
