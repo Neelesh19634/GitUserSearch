@@ -1,11 +1,4 @@
 import Link from 'next/link';
-import React from 'react';
-
-interface Props {
-  params: {
-    username: string[];
-  };
-}
 
 const getUserData = async (username: string) => {
   const res = await fetch(`https://api.github.com/users/${username}`, {
@@ -15,12 +8,11 @@ const getUserData = async (username: string) => {
   return res.json();
 };
 
-export default async function Page({ params }: Props) {
-  const username = params.username[0]; // Use first part from catch-all route
-  const user = await getUserData(username);
+export default async function Page({ params }: { params: { username: string } }) {
+  const user = await getUserData(params.username);
 
   if (!user) {
-    return <div className="text-center text-red-500 mt-10">User Not Found 😭</div>;
+    return <div className="text-center text-red-500 mt-10">User not found</div>;
   }
 
   return (
@@ -31,9 +23,7 @@ export default async function Page({ params }: Props) {
           alt={user.login}
           className="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-blue-500 shadow-lg"
         />
-        <h2 className="text-2xl font-bold mb-1 text-gray-900 dark:text-white">
-          {user.name || user.login}
-        </h2>
+        <h2 className="text-2xl font-bold mb-1 text-gray-900 dark:text-white">{user.name || user.login}</h2>
         <p className="text-sm text-gray-500 dark:text-gray-400">@{user.login}</p>
         <p className="text-gray-600 dark:text-gray-300 mt-3 italic">{user.bio || 'No bio available.'}</p>
 
